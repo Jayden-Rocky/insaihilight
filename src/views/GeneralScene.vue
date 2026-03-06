@@ -10,7 +10,8 @@
       v-model:productName="formData.productName"
       v-model:productDesc="formData.productDesc"
       v-model:mediaFiles="mediaFiles"
-      :show-description="false"
+      :show-description="true"
+      :description-required="true"
     />
     
     <!-- 产品卖点 -->

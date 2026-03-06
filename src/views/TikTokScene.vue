@@ -82,23 +82,15 @@
     </FormField>
     
     <!-- 视频设置 -->
-    <div class="video-settings">
+    <div class="section-group">
       <div class="section-title">视频设置</div>
       <div class="settings-row">
         <div class="setting-item">
           <div class="setting-label">语言</div>
           <select v-model="formData.language" class="select">
-            <option value="中文">中文</option>
-            <option value="英文">英文</option>
-            <option value="日语">日语</option>
-          </select>
-        </div>
-        <div class="setting-item">
-          <div class="setting-label">视频时长</div>
-          <select v-model="formData.duration" class="select">
-            <option value="15s">15秒</option>
-            <option value="30s">30秒</option>
-            <option value="60s">60秒</option>
+            <option v-for="lang in languageOptions" :key="lang.value" :value="lang.value">
+              {{ lang.label }}
+            </option>
           </select>
         </div>
       </div>
@@ -119,9 +111,19 @@ const formData = ref({
   sellingPoints: '',
   targetAudience: '',
   otherIdeas: '',
-  language: '中文',
-  duration: '30s'
+  language: 'en'
 })
+
+const languageOptions = [
+  { label: '德语', value: 'de' },
+  { label: '英语', value: 'en' },
+  { label: '西班牙语', value: 'es' },
+  { label: '法语', value: 'fr' },
+  { label: '日语', value: 'ja' },
+  { label: '葡萄牙语', value: 'pt' },
+  { label: '俄语', value: 'ru' },
+  { label: '中文', value: 'zh' }
+]
 
 const mediaFiles = ref([])
 const showSellingPoints = ref(false)
@@ -213,10 +215,6 @@ const handleSubmit = () => {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(43, 209, 215, 0.3);
   color: #2bd1d7;
-}
-
-.video-settings {
-  margin-top: 32px;
 }
 
 .settings-row {

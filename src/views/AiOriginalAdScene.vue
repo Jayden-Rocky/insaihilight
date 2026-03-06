@@ -11,7 +11,7 @@
       v-model:productDesc="formData.productDesc"
       v-model:mediaFiles="mediaFiles"
       :show-description="true"
-      :description-required="false"
+      :description-required="true"
     />
     
     <!-- 产品卖点 -->
@@ -63,17 +63,9 @@
         <div class="setting-item">
           <div class="setting-label">语言</div>
           <select v-model="formData.language" class="select">
-            <option value="中文">中文</option>
-            <option value="英文">英文</option>
-            <option value="日语">日语</option>
-          </select>
-        </div>
-        <div class="setting-item">
-          <div class="setting-label">视频时长</div>
-          <select v-model="formData.duration" class="select">
-            <option value="15s">15秒</option>
-            <option value="30s">30秒</option>
-            <option value="60s">60秒</option>
+            <option v-for="lang in languageOptions" :key="lang.value" :value="lang.value">
+              {{ lang.label }}
+            </option>
           </select>
         </div>
       </div>
@@ -93,25 +85,37 @@ const formData = ref({
   sellingPoints: '',
   placement: '信息流',
   scriptStyle: '原生种草',
-  language: '中文',
-  duration: '30s'
+  language: 'en'
 })
 
 const mediaFiles = ref([])
 
+const languageOptions = [
+  { label: '德语', value: 'de' },
+  { label: '英语', value: 'en' },
+  { label: '西班牙语', value: 'es' },
+  { label: '法语', value: 'fr' },
+  { label: '日语', value: 'ja' },
+  { label: '葡萄牙语', value: 'pt' },
+  { label: '俄语', value: 'ru' },
+  { label: '中文', value: 'zh' }
+]
+
 const placementOptions = [
-  '信息流',
-  '开屏',
-  '激励视频',
-  '原生广告',
-  'Banner'
+  'YouTube Shorts',
+  'TikTok Ads',
+  'Meta Feeds',
+  'Meta Reels',
+  '其他'
 ]
 
 const scriptStyles = [
-  { text: '原生种草', desc: '真实自然的种草风格' },
-  { text: '剧情演绎', desc: '有故事情节的视频' },
-  { text: '产品展示', desc: '突出产品特点' },
-  { text: '用户证言', desc: '真实用户反馈' }
+  { text: '开箱体验', desc: '真实拆箱 + 第一印象点评，突出包装细节与品牌质感。' },
+  { text: '教程指南', desc: '逐步教学式脚本，边用边讲功能与使用技巧，驱动转化与收藏。' },
+  { text: '对比评测', desc: 'A/B 对照测试，同屏对比核心参数，引导理性购买。' },
+  { text: '五秒抓眼', desc: '广告可跳过前精简 5 秒冲击钩子+品牌露出，抓住耐性低的观众。' },  
+  { text: '购买理由', desc: '精炼列出 3–5 条核心卖点，结构化说服。' },
+  { text: '案例研究', desc: '真实用引入真实客户场景及量化收益，用数据说服 B2B/B2C 受众。户反馈' }
 ]
 
 const isFormValid = computed(() => {
