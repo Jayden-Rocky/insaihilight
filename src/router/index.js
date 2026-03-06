@@ -52,6 +52,11 @@ const routes = [
     component: () => import('../views/PromotionalVideoAdScene.vue')
   },
   {
+    path: '/cloud/products',
+    name: 'ProductManagement',
+    component: () => import('../views/ProductManagement.vue')
+  },
+  {
     path: '/cloud/projects',
     name: 'Projects',
     component: () => import('../views/Projects.vue')
