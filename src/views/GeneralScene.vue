@@ -30,6 +30,47 @@
         placeholder="请输入目标受众，例如TikTok 用户，18–30 岁年轻人，偏好真实测评和快节奏内容"
       ></textarea>
     </FormField>
+    
+    <!-- 视频时长 -->
+    <FormField title="视频时长" required>
+      <ButtonGroup
+        v-model="formData.videoDuration"
+        :options="durationOptions"
+      />
+    </FormField>
+    
+    <!-- 视频尺寸 -->
+    <FormField title="视频尺寸" required>
+      <ButtonGroup
+        v-model="formData.videoRatio"
+        :options="ratioOptions"
+      />
+    </FormField>
+    
+    <!-- 语言设置 -->
+    <FormField title="语言" required>
+      <SelectField
+        v-model="formData.language"
+        :options="languageOptions"
+      />
+    </FormField>
+    
+    <!-- 镜头和水印 - 独立表单项 -->
+    <SwitchField
+      v-model="formData.enableWatermark"
+      title="镜头和水印"
+      hint="开启后将在视频中添加品牌水印"
+    />
+    
+    <!-- 其他创作想法 -->
+    <FormField title="其他创作想法">
+      <textarea
+        v-model="formData.additionalIdeas"
+        class="textarea"
+        placeholder="可补充你对视频的其他想法，如风格偏好、节奏要求或需要避免的内容，例如：希望整体节奏偏快，画面真实一点，不要太广告感，避免夸张用语"
+        rows="4"
+      ></textarea>
+    </FormField>
   </SceneLayout>
 </template>
 
@@ -39,6 +80,9 @@ import { useRouter } from 'vue-router'
 import SceneLayout from '../components/scene/SceneLayout.vue'
 import ProductInfo from '../components/scene/ProductInfo.vue'
 import FormField from '../components/scene/FormField.vue'
+import ButtonGroup from '../components/scene/ButtonGroup.vue'
+import SelectField from '../components/scene/SelectField.vue'
+import SwitchField from '../components/scene/SwitchField.vue'
 
 const router = useRouter()
 
@@ -46,10 +90,40 @@ const formData = ref({
   productName: '',
   productDesc: '',
   sellingPoints: '',
-  targetAudience: ''
+  targetAudience: '',
+  videoDuration: '30',
+  videoRatio: '9:16',
+  language: 'zh-CN',
+  enableWatermark: false,
+  additionalIdeas: ''
 })
 
 const mediaFiles = ref([])
+
+// 视频时长选项
+const durationOptions = [
+  { value: '15', label: '15秒' },
+  { value: '30', label: '30秒' },
+  { value: '60', label: '60秒' }
+]
+
+// 视频尺寸选项
+const ratioOptions = [
+  { value: '9:16', label: '竖屏 9:16' },
+  { value: '16:9', label: '横屏 16:9' },
+  { value: '1:1', label: '方形 1:1' }
+]
+
+// 语言选项
+const languageOptions = [
+  { value: 'zh-CN', label: '中文' },
+  { value: 'en-US', label: '英语' },
+  { value: 'es-ES', label: '西班牙语' },
+  { value: 'fr-FR', label: '法语' },
+  { value: 'ja-JP', label: '日语' },
+  { value: 'pt-BR', label: '葡萄牙语' },
+  { value: 'ru-RU', label: '俄语' }
+]
 
 const isFormValid = computed(() => {
   return formData.value.productName.trim() && 
