@@ -7,6 +7,21 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
   {
+    path: '/inspiration/insight',
+    name: 'CreativeInsight',
+    component: () => import('../views/inspiration/CreativeInsight.vue')
+  },
+  {
+    path: '/creation/studio',
+    name: 'CreativeStudio',
+    component: () => import('../views/creation/CreativeStudio.vue')
+  },
+  {
+    path: '/creation/avatar',
+    name: 'Avatar',
+    component: () => import('../views/creation/Avatar.vue')
+  },
+  {
     path: '/creation/video-generator',
     name: 'VideoGenerator',
     component: () => import('../views/VideoGenerator.vue')
@@ -46,8 +61,6 @@ const routes = [
     name: 'Assets',
     component: () => import('../views/Assets.vue')
   }
-
-
 ]
 
 const router = createRouter({
