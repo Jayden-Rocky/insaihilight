@@ -23,7 +23,7 @@ CREATE TABLE `user` (
   `email` VARCHAR(100) COMMENT '邮箱',
   `phone` VARCHAR(20) COMMENT '手机号',
   `avatar` VARCHAR(255) COMMENT '头像URL',
-  `password_hash` VARCHAR(255) NOT NULL COMMENT '密码哈希',
+  `password_hash` VARCHAR(255) NOT NULL COMMENT '密码',
   `status` TINYINT DEFAULT 1 COMMENT '状态: 0-禁用, 1-正常',
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -40,7 +40,7 @@ CREATE TABLE `asset` (
   `user_id` BIGINT NOT NULL COMMENT '用户ID',
   `folder_id` BIGINT DEFAULT NULL COMMENT '文件夹ID',
   `name` VARCHAR(255) NOT NULL COMMENT '素材名称',
-  `type` VARCHAR(20) NOT NULL COMMENT '类型: image/video/audio',
+  `type` VARCHAR(20) NOT NULL COMMENT '类型: 0-image，1-video，2-audio',
   `file_url` VARCHAR(500) NOT NULL COMMENT '文件URL',
   `thumbnail_url` VARCHAR(500) COMMENT '缩略图URL',
   `file_size` BIGINT COMMENT '文件大小(字节)',
@@ -48,7 +48,7 @@ CREATE TABLE `asset` (
   `width` INT COMMENT '宽度(像素)',
   `height` INT COMMENT '高度(像素)',
   `format` VARCHAR(20) COMMENT '格式: jpg/png/mp4/mp3等',
-  `status` TINYINT DEFAULT 1 COMMENT '状态: 0-回收站, 1-正常',
+  `is_deleted` TINYINT DEFAULT 1 COMMENT '状态: 0-未删除, 1-已删除',
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   INDEX `idx_user_id` (`user_id`),
@@ -64,7 +64,7 @@ CREATE TABLE `asset` (
 CREATE TABLE `asset_folder` (
   `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '文件夹ID',
   `user_id` BIGINT NOT NULL COMMENT '用户ID',
-  `parent_id` BIGINT DEFAULT NULL COMMENT '父文件夹ID',
+  `parent_id` BIGINT DEFAULT NULL COMMENT '父文件夹ID，文件夹ID = 用户ID，则为最顶层文件夹',
   `name` VARCHAR(100) NOT NULL COMMENT '文件夹名称',
   `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -79,18 +79,16 @@ CREATE TABLE `asset_folder` (
 CREATE TABLE `project` (
   `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '项目ID',
   `user_id` BIGINT NOT NULL COMMENT '用户ID',
-  `title` VARCHAR(200) NOT NULL COMMENT '项目标题',
   `cover_url` VARCHAR(500) COMMENT '封面图URL',
-  `status` VARCHAR(20) DEFAULT 'draft' COMMENT '状态: draft/processing/completed',
-  `source` VARCHAR(50) COMMENT '来源: /智能成片/创意工坊/数字分身',
-  `scene_type` VARCHAR(50) NOT NULL COMMENT '场景类型: general/tiktok/ai_ad/product_display/promotional',
+  `status` VARCHAR(20) DEFAULT 'draft' COMMENT '状态: 1-draft，2-processing，3-completed',
+  `source` VARCHAR(50) COMMENT '来源: 1-智能成片，2-创意工坊，3-数字分身',
+  `scene_type` VARCHAR(50) NOT NULL COMMENT '场景类型: 1-general，2-tiktok，3-ai_ad，4-product_display，5-promotional',
   
   -- 通用字段
   `product_name` VARCHAR(200) COMMENT '产品名称',
   `product_desc` TEXT COMMENT '产品描述',
   `selling_points` TEXT COMMENT '产品卖点',
   `target_audience` TEXT COMMENT '目标受众',
-  `video_duration` INT DEFAULT 30 COMMENT '视频时长(秒)',
   `language` VARCHAR(20) DEFAULT 'zh' COMMENT '语言',
   
   -- 场景特有配置(JSON格式存储)
@@ -112,9 +110,10 @@ CREATE TABLE `project` (
 ```json
 // general 场景
 {
+  "videoDuration": "创作视频时长",
   "videoRatio": "9:16",
   "enableWatermark": false,
-  "additionalIdeas": "希望整体节奏偏快"
+  "otherIdeas": "其他创作想法"
 }
 
 // tiktok 场景
@@ -124,24 +123,24 @@ CREATE TABLE `project` (
 
 // ai_ad 场景
 {
-  "placement": "信息流",
-  "scriptStyle": "原生种草"
+  "placement": "投放版位",
+  "scriptStyle": "脚本风格"
 }
 
 // product_display 场景
 {
-  "placement": "YouTube Shorts"
+  "placement": "投放版位"
 }
 
 // promotional 场景
 {
-  "placement": ["YouTube Shorts", "TikTok Ads"],
   "originalPrice": "99.00",
   "promotionPrice": "79.00",
   "startDate": "2024-03-01",
   "endDate": "2024-03-15",
-  "promotionDesc": "限时优惠",
-  "marketingNode": "情人节"
+  "promotionDesc": "促销方案描述",
+  "marketingNode": "情人节",
+   "placement": "投放版位"
 }
 ```
 
@@ -167,7 +166,7 @@ CREATE TABLE `video_task` (
   `id` BIGINT PRIMARY KEY AUTO_INCREMENT COMMENT '任务ID',
   `project_id` BIGINT NOT NULL COMMENT '项目ID',
   `user_id` BIGINT NOT NULL COMMENT '用户ID',
-  `status` VARCHAR(20) DEFAULT 'pending' COMMENT '状态: pending/processing/completed/failed',
+  `status` VARCHAR(20) DEFAULT 'pending' COMMENT '状态: 1-processing,2-completed,3-failed',
   `progress` INT DEFAULT 0 COMMENT '进度(0-100)',
   `result_url` VARCHAR(500) COMMENT '生成结果URL',
   `error_message` TEXT COMMENT '错误信息',
