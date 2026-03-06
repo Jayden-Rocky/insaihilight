@@ -11,7 +11,7 @@
       v-model:productDesc="formData.productDesc"
       v-model:mediaFiles="mediaFiles"
       :show-description="true"
-      :description-required="false"
+      :description-required="true"
     />
     
     <!-- 产品卖点 -->
