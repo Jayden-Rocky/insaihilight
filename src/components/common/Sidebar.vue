@@ -105,7 +105,7 @@
     <div class="sidebar-footer">
       <div class="user-info">
         <div class="avatar">
-          <img src="https://static8.yingsaidata.com/wise-cut/img/default-avatar.png" alt="avatar" />
+          <img src="https://static5.yingsaidata.com/ba8acc1749b3c18149ad109f5c60a12e.png" alt="avatar" />
         </div>
         <span class="username">用户名</span>
       </div>
