@@ -147,7 +147,7 @@ const showSourceDropdown = ref(false)
 const showSortDropdown = ref(false)
 
 // 选项数据
-const sourceOptions = ['全部来源', '一键成片', '智能成片', '数字分身']
+const sourceOptions = ['全部来源', '智能成片', '创意工坊', '数字分身']
 const sortOptions = [
   { label: '最近创建', value: 'recent' },
   { label: '最早创建', value: 'oldest' },
@@ -157,10 +157,10 @@ const sortOptions = [
 
 // 项目数据
 const projects = ref([
-  { id: '1', title: '新建项目_69a96e18', status: 'draft', source: '一键成片', date: '2026-03-06 16:37' },
-  { id: '2', title: '新建项目_69a90e4e', status: 'draft', source: '一键成片', date: '2026-03-05 13:03' },
+  { id: '1', title: '新建项目_69a96e18', status: 'draft', source: '创意工坊', date: '2026-03-06 16:37' },
+  { id: '2', title: '新建项目_69a90e4e', status: 'draft', source: '创意工坊', date: '2026-03-05 13:03' },
   { id: '3', title: '品牌宣传片_V2', status: 'draft', source: '数字分身', date: '2026-03-03 15:20' },
-  { id: '4', title: '新品发布会视频', status: 'completed', source: '一键成片', date: '2026-03-02 10:45' },
+  { id: '4', title: '新品发布会视频', status: 'completed', source: '创意工坊', date: '2026-03-02 10:45' },
   { id: '5', title: '社交媒体短视频合集', status: 'draft', source: '智能成片', date: '2026-03-01 09:15' },
   { id: '6', title: '企业宣传片_2026版', status: 'completed', source: '数字分身', date: '2026-02-28 16:50' }
 ])
